@@ -7,7 +7,7 @@
 """TinyDigitNet: a ~14k parameter CNN for 28x28 grayscale digits.
 
 Kept deliberately small so the fp32 portable ExecuTorch kernels run it in a
-few milliseconds on the ESP32-S3 (Xtensa LX7, 240 MHz) with no delegate.
+few milliseconds on a Cortex-M33 with an FPU with no delegate.
 """
 
 import torch

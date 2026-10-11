@@ -2,7 +2,7 @@
 
 **ExecuTorch** is PyTorch's unified solution for deploying AI models on-device—from smartphones to microcontrollers—built for privacy, performance, and portability. It powers Meta's on-device AI across **Instagram, WhatsApp, Quest 3, Ray-Ban Meta Smart Glasses**, and [more](https://docs.pytorch.org/executorch/main/success-stories.html).
 
-This folder adds ExecuTorch so it can be build and run in the Zephyr project as a external module. This includes an example under zephyr/samples/hello-executorch of running executor runners with Arm&reg; Ethos&trade;-U backend on a Corstone&trade; FVP, targeting the Zephyr RTOS. A second sample, zephyr/samples/mnist-camera, runs an MNIST CNN with the portable kernels on non-Arm and Cortex-M0+ boards (Seeed XIAO ESP32-S3 Sense, Arducam Pico4ML) and classifies camera frames.
+This folder adds ExecuTorch so it can be build and run in the Zephyr project as a external module. This includes an example under zephyr/samples/hello-executorch of running executor runners with Arm&reg; Ethos&trade;-U backend on a Corstone&trade; FVP, targeting the Zephyr RTOS. A second sample, zephyr/samples/mnist-camera, runs an MNIST CNN with the portable kernels on a Cortex-M0+ without an FPU (Arducam Pico4ML, RP2040) and classifies frames from its camera; on any other board it runs the embedded self-test.
 
 # Requirements
 

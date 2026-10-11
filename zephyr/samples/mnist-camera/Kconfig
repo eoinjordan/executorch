@@ -36,10 +36,6 @@ choice APP_CAMERA
 config APP_CAMERA_NONE
 	bool "None: run the embedded self-test only"
 
-config APP_CAMERA_VIDEO
-	bool "Zephyr video API (zephyr,camera chosen node, e.g. XIAO ESP32-S3 Sense)"
-	depends on VIDEO
-
 config APP_CAMERA_HM01B0_PIO
 	bool "HM01B0 through RP2040 PIO + DMA (Arducam Pico4ML)"
 	depends on SOC_SERIES_RP2040 && PIO_RPI_PICO && DMA && PWM && I2C && GPIO
@@ -55,13 +51,6 @@ config APP_PREVIEW_EVERY
 	int "Print the 28x28 crop as ASCII every N frames"
 	default 10
 	depends on !APP_CAMERA_NONE
-
-config APP_CAMERA_SWAP_BYTES
-	bool "Treat RGB565 frames as big-endian"
-	depends on APP_CAMERA_VIDEO
-	help
-	  Enable if the ASCII preview looks like noise; some DVP receivers
-	  deliver RGB565 with the two bytes swapped.
 
 config APP_CAM_BINNING
 	bool "HM01B0 2x2 binning (162x122 frames instead of 324x244)"

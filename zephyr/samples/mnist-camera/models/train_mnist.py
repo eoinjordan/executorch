@@ -76,7 +76,7 @@ def export_pte(model, out: pathlib.Path) -> None:
     """torch.export -> Edge dialect -> ExecuTorch program, no backend delegate.
 
     Every op is lowered to the portable kernel library, which is what the
-    Zephyr module builds for the ESP32-S3 (there is no Xtensa backend).
+    Zephyr module builds with the portable kernels (no backend delegate).
     """
     from executorch.exir import EdgeCompileConfig, to_edge_transform_and_lower
 

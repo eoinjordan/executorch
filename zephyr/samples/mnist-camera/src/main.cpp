@@ -5,16 +5,15 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * MNIST digit recognition with ExecuTorch under Zephyr, on boards that are
- * not Arm Cortex-M or that have a camera:
+ * MNIST digit recognition with ExecuTorch under Zephyr on the Arducam
+ * Pico4ML (RP2040, Cortex-M0+), and the embedded self-test on any board:
  *
  * 1. Load the .pte embedded in flash (model_pte.h, generated at build time)
  *    and run the MNIST test image baked into test_input.h; compare the
  *    logits with PyTorch's, so a fresh board proves the export -> embed ->
  *    execute path end to end (SELF-TEST PASS).
- * 2. Optionally keep classifying frames from a camera: the Zephyr video API
- *    (XIAO ESP32-S3 Sense, OV2640) or the HM01B0 behind RP2040 PIO (Arducam
- *    Pico4ML), with an optional ST7735 status screen.
+ * 2. Optionally keep classifying frames from the HM01B0 camera behind
+ *    RP2040 PIO + DMA, with an optional ST7735 status screen.
  */
 
 #include <executorch/extension/data_loader/buffer_data_loader.h>

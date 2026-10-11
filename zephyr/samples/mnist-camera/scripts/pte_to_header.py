@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 """Convert an ExecuTorch .pte into a C header with a 16-byte aligned const array.
 
-The array lands in .rodata, which on the ESP32-S3 is memory-mapped flash, so
+The array lands in .rodata, which on most MCUs is flash, so
 the model costs no SRAM beyond the runtime's planned buffers.
 """
 

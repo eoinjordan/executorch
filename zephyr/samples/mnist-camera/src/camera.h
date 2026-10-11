@@ -15,8 +15,9 @@ extern "C" {
 
 #define APP_IMG_SIDE 28
 
-/* Bring up the camera chosen in devicetree (zephyr,camera) at 160x120 RGB565
- * and start streaming. Returns 0 or a negative errno.
+/* Bring up the board's camera and start streaming. Returns 0 or a negative
+ * errno. Implemented by camera_hm01b0.c for the Arducam Pico4ML; another
+ * board only needs these two calls.
  */
 int app_camera_init(void);
 

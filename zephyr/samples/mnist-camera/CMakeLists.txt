@@ -7,8 +7,8 @@
 #
 # MNIST digit recognition with ExecuTorch under Zephyr. Same structure as
 # hello-executorch (model embedded as a const array, selective operator
-# build) but with no Arm-specific pieces: the sample runs the portable
-# kernels on Xtensa (ESP32-S3) and Cortex-M0+ (RP2040) as well as Cortex-M.
+# build) but with no Arm-backend pieces: the sample runs the portable
+# kernels, including on a Cortex-M0+ without an FPU (RP2040).
 
 cmake_minimum_required(VERSION 3.24)
 
@@ -120,7 +120,6 @@ add_custom_target(gen_model_header DEPENDS ${_model_pte_header})
 add_dependencies(app gen_model_header)
 
 target_sources(app PRIVATE src/main.cpp)
-target_sources_ifdef(CONFIG_APP_CAMERA_VIDEO app PRIVATE src/camera_video.c)
 target_sources_ifdef(CONFIG_APP_CAMERA_HM01B0_PIO app PRIVATE src/camera_hm01b0.c)
 target_sources_ifdef(CONFIG_APP_SCREEN_ST7735 app PRIVATE src/screen_st7735.c)
 target_include_directories(app PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
