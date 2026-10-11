@@ -1,0 +1,87 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+# Copyright (c) 2026 Eoin Jordan.
+#
+# This source code is licensed under the BSD-style license found in the
+# LICENSE file in the root directory of this source tree.
+
+source "Kconfig.zephyr"
+
+menu "ExecuTorch MNIST camera sample"
+
+config EXECUTORCH_METHOD_ALLOCATOR_POOL_SIZE
+	int "Method allocator pool size in bytes"
+	default 65536
+	depends on EXECUTORCH
+	help
+	  Static pool for the Method, its metadata and the memory-planned
+	  activation buffers. TinyDigitNet needs about 60 KiB.
+
+config EXECUTORCH_TEMP_ALLOCATOR_POOL_SIZE
+	int "Temporary allocator pool size in bytes"
+	default 8192
+	depends on EXECUTORCH
+
+config APP_BOOT_DELAY_MS
+	int "Delay before the first console line (ms)"
+	default 0
+	help
+	  Boards with a USB CDC console lose the banner unless the host has a
+	  moment to open the port.
+
+choice APP_CAMERA
+	prompt "Camera input"
+	default APP_CAMERA_NONE
+
+config APP_CAMERA_NONE
+	bool "None: run the embedded self-test only"
+
+config APP_CAMERA_VIDEO
+	bool "Zephyr video API (zephyr,camera chosen node, e.g. XIAO ESP32-S3 Sense)"
+	depends on VIDEO
+
+config APP_CAMERA_HM01B0_PIO
+	bool "HM01B0 through RP2040 PIO + DMA (Arducam Pico4ML)"
+	depends on SOC_SERIES_RP2040 && PIO_RPI_PICO && DMA && PWM && I2C && GPIO
+
+endchoice
+
+config APP_CAMERA_INTERVAL_MS
+	int "Delay between camera inferences (ms)"
+	default 500
+	depends on !APP_CAMERA_NONE
+
+config APP_PREVIEW_EVERY
+	int "Print the 28x28 crop as ASCII every N frames"
+	default 10
+	depends on !APP_CAMERA_NONE
+
+config APP_CAMERA_SWAP_BYTES
+	bool "Treat RGB565 frames as big-endian"
+	depends on APP_CAMERA_VIDEO
+	help
+	  Enable if the ASCII preview looks like noise; some DVP receivers
+	  deliver RGB565 with the two bytes swapped.
+
+config APP_CAM_BINNING
+	bool "HM01B0 2x2 binning (162x122 frames instead of 324x244)"
+	default y
+	depends on APP_CAMERA_HM01B0_PIO
+
+config APP_CAM_BIT_REVERSE
+	bool "Reverse the bit order of each HM01B0 byte"
+	depends on APP_CAMERA_HM01B0_PIO
+	help
+	  The HM01B0 on the Pico4ML sends each pixel MSB first, matching the
+	  PIO program. Turn this on if the preview looks like noise while the
+	  frame statistics span the full range.
+
+config APP_SCREEN_ST7735
+	bool "Show the result on an ST7735 (zephyr,display chosen node)"
+	depends on DISPLAY
+
+config APP_USB_BOOTSEL_ON_1200_BAUD
+	bool "RP2040: reboot into BOOTSEL when the USB console is opened at 1200 baud"
+	depends on SOC_SERIES_RP2040 && UART_LINE_CTRL
+
+endmenu
